@@ -1,21 +1,23 @@
-# Usando a imagem estável do Python
-FROM python:3.10-slim
+# Use uma imagem Python oficial
+FROM python:3.11-slim
 
-# Instala as dependências de sistema atualizadas para Debian Trixie/Bookworm
+# Instala dependências do sistema para o OpenCV e o motor WeChat
 RUN apt-get update && apt-get install -y \
-    libgl1 \
+    libgl1-mesa-glx \
     libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Define a pasta de trabalho
 WORKDIR /app
 
-# Copia e instala dependências Python
+# Copia os requisitos e instala
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copia o código
+# Copia o restante do código
 COPY . .
 
-# Comando para rodar a API (ajustado para a porta do Render)
-CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port $PORT"]
+# Comando para rodar o Uvicorn (Render espera a porta 10000 por padrão ou via env PORT)
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "10000"]

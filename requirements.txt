@@ -1,6 +1,7 @@
 fastapi
-uvicorn[standard]
-pymupdf
-opencv-python-headless
+uvicorn
 python-multipart
+pymupdf
 numpy
+opencv-contrib-python-headless
+requests
