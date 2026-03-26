@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-
+RUN mkdir -p temp_images && chmod 777 temp_images
 # O restante do seu Dockerfile continua igual...
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
